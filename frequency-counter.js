@@ -65,6 +65,7 @@ function same1(ar1 = [], ar2 = []) {
   return matchArray.length > 0 ? false : true;
 }
 
+/*
 console.log(same([1, 2, 3], [4, 1, 9]));
 console.log(same([1, 2, 3], [1, 9]));
 console.log(same([1, 2, 1], [4, 4, 1]));
@@ -74,7 +75,7 @@ console.log(
     [1, 2, 3, 4, 5, 6, 7, 8, 9, 234, 123, 333, 554, 4545],
     [9, 1, 4, 45, 23, 45, 22, 987, 123, 3423, 2, 45, 44, 32]
   )
-);
+); */
 
 /**
  * ---- Anagrams
@@ -89,5 +90,55 @@ console.log(
  * 'rat', 'car' => false
  * 'awesome', 'awesom' => false
  * 'qwerty', 'qeywrt' => true
- * 'texttwisttime', 'timetwisttext'
+ * 'texttwisttime', 'timetwisttext' => true
  */
+
+// My solution
+function anagramSame1(str1 = "", str2 = "") {
+  if (str1.length !== str2.length) return false;
+  let frequencyCounter1 = {};
+  let frequencyCounter2 = {};
+  for (let val of str1) {
+    frequencyCounter1[val] = (frequencyCounter1[val] || 0) + 1;
+  }
+
+  for (let val of str2) {
+    frequencyCounter2[val] = (frequencyCounter2[val] || 0) + 1;
+  }
+
+  for (let key in frequencyCounter1) {
+    if (!frequencyCounter2[key]) return false;
+    if (frequencyCounter1[key] !== frequencyCounter2[key]) return false;
+  }
+
+  return true;
+}
+
+// course solution
+function anagramSame(first, second) {
+  if (first.length !== second.length) return false;
+  const lookup = {};
+  for (let i = 0; i < first.length; i++) {
+    let letter = first[i];
+    lookup[letter] ? (lookup[letter] += 1) : (lookup[letter] = 1);
+  }
+
+  for (let i = 0; i < second.length; i++) {
+    let letter = second[i];
+    if (!lookup[letter]) {
+      return false;
+    } else {
+      lookup[letter] -= 1;
+    }
+  }
+
+  return true;
+}
+
+console.log(anagramSame("", ""));
+console.log(anagramSame("aaz", "zza"));
+console.log(anagramSame("anagram", "nagaram"));
+console.log(anagramSame("rat", "car"));
+console.log(anagramSame("awesome", "awesom"));
+console.log(anagramSame("qwerty", "qeywrt"));
+console.log(anagramSame("texttwisttime", "timetwisttext"));
